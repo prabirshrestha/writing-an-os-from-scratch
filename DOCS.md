@@ -49,4 +49,15 @@ You can download it from http://developer.apple.com/downloads (Search for comman
 we will be using `Command Line Tools for Xcode - June 2012` which is around 147mb compared to Xcode which is around 1.8gb+.)
 
 ####<a name="install-gcc-linux">Installing GCC in Linux</a>
-[TODO]
+For linux we will be using [Slitaz](http://www.slitaz.org/) so some commands like installing packages will be
+specific to Slitaz. *SliTaz is a linux based open source and free operating system providing a fully featured desktop 
+or server in less than 35 MB.*
+
+Type the following commands in the terminal to install `binutils` and `gcc`.
+
+```bash
+su
+tazpkg get-install binutils
+tazpkg get-install gcc
+exit
+```
