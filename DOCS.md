@@ -23,7 +23,13 @@ This doc teaches you how to write an Operating System (OS) from scratch.
 ###<a name="install-gcc">Install GCC - the GNU Compiler Collection</a>
 
 ####<a name="install-gcc-win">Install GCC in Windows</a>
-[TODO]
+For Windows we will be using MinGW. You can download the mingw-get installer from http://sourceforge.net/projects/mingw/files/Installer/mingw-get-inst/.
+
+Remember to check the following when installing MinGW.
+
+   * C Compiler
+   * C++ Compiler
+   * MSYS Base System
 
 ####<a name="install-gcc-win">Install GCC in Mac</a>
 [TODO]
