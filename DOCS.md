@@ -62,6 +62,8 @@ Type the following commands in the terminal to install `binutils` and `gcc`.
 su
 tazpkg get-install binutils
 tazpkg get-install gcc
+tazpkg get-install make
+tazpkg get-install sudo
 exit
 ```
 ###<a name="create-cross-compiler">Creating a Cross Compiler</a>
@@ -75,6 +77,7 @@ binaries.
 Download the source code of `binutils` which can be found at http://ftp.gnu.org/gnu/binutils/ or use the following command.
 
 ```bash
+cd build-binutils
 wget http://ftp.gnu.org/gnu/binutils/binutils-2.22.tar.gz
 ```
 
@@ -82,6 +85,18 @@ Extract binutils-2.22.tar.gz
 
 ```bash
 tar -vxzf binutils-2.22.tar.gz
+```
+
+Configure binutils
+
+```bash
+binutils-2.22/configure --prefix=/usr/local/cross --target=i586-elf --disable-nls
+```
+
+Compiling binutils
+
+```bash
+make all
 ```
 
 [TODO]
