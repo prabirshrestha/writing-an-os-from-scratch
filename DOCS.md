@@ -77,6 +77,7 @@ binaries.
 Download the source code of `binutils` which can be found at http://ftp.gnu.org/gnu/binutils/ or use the following command.
 
 ```bash
+mkdir build-binutils
 cd build-binutils
 wget http://ftp.gnu.org/gnu/binutils/binutils-2.22.tar.gz
 ```
