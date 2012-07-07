@@ -56,15 +56,15 @@ For linux we will be using [Slitaz](http://www.slitaz.org/) so some commands lik
 specific to Slitaz. *SliTaz is a linux based open source and free operating system providing a fully featured desktop 
 or server in less than 35 MB.*
 
-Type the following commands in the terminal to install `binutils` and `gcc`.
+Type the following commands in the terminal to install `binutils` and `gcc`. You might require root privilages to install
+or peformc certain task. In slitaz it can be performed by typing `su` in the terminal and pressing enter. They type your
+root passsword.
 
 ```bash
-su
 tazpkg get-install binutils
 tazpkg get-install gcc
 tazpkg get-install make
 tazpkg get-install slitaz-toolchain
-exit
 ```
 ###<a name="create-cross-compiler">Creating a Cross Compiler</a>
 
