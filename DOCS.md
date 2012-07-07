@@ -43,7 +43,10 @@ mingw-get install msys-wget
 ```
 
 ####<a name="install-gcc-mac">Install GCC in Mac</a>
-[TODO]
+GCC comes bundle with Xcode in Mac. If you don't want to install the full Xcode you can download a seperate package 
+called - `Command Line Tools for Xcode` from the Apple developers site. (You will need a free Apple ID inorder to download it.)
+You can download it from http://developer.apple.com/downloads (Search for command to filter the results. For this tutorial
+we will be using `Command Line Tools for Xcode - June 2012` which is around 147mb compared to Xcode which is around 1.8gb+.)
 
 ####<a name="install-gcc-linux">Install GCC in Linux</a>
 [TODO]
