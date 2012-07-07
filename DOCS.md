@@ -11,8 +11,10 @@ This doc teaches you how to write an Operating System (OS) from scratch.
       * [Windows](#install-gcc-win)
       * [Mac](#install-gcc-mac)
       * [Linux](#install-gcc-linux)
-* ####[Creating a Cross Compiler](#create-cross-compiler)
-
+    * [Creating a Cross Compiler](#create-cross-compiler)
+         * [binutils](#compile-binutils)
+         * [gcc](#compile-gcc)
+      
 <a name="introduction">Introduction</a>
 ---
 [TODO]
@@ -62,7 +64,27 @@ tazpkg get-install binutils
 tazpkg get-install gcc
 exit
 ```
+###<a name="create-cross-compiler">Creating a Cross Compiler</a>
 
-<a name="create-cross-compiler">Creating a Cross Compiler</a>
----
+Our OS will be using the elf binary format targeting x86 machines. We will thus need a compiler that can target elf and x86
+machines. By default the binutils and gcc compiler you installed can target only the format the os is on. This means we need
+to create our own specific builds of `binutils` and `gcc` that is capable of targeting x86 which is capable for generating x86
+binaries.
+
+####<a name="compile-binutils">Compiling binutils</a>
+Download the source code of `binutils` which can be found at http://ftp.gnu.org/gnu/binutils/ or use the following command.
+
+```bash
+wget http://ftp.gnu.org/gnu/binutils/binutils-2.22.tar.gz
+```
+
+Extract binutils-2.22.tar.gz
+
+```bash
+tar -vxzf binutils-2.22.tar.gz
+```
+
+[TODO]
+
+####<a name="compile-gcc">Compiling gcc</a>
 [TODO]
