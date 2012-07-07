@@ -99,6 +99,12 @@ Compiling binutils
 make all
 ```
 
+Installing binutils to /usr/local/cross folder
+
+```bash
+make install
+```
+
 [TODO]
 
 ####<a name="compile-gcc">Compiling gcc</a>
