@@ -11,6 +11,7 @@ This doc teaches you how to write an Operating System (OS) from scratch.
       * [Windows](#install-gcc-win)
       * [Mac](#install-gcc-mac)
       * [Linux](#install-gcc-linux)
+* ####[Creating a Cross Compiler](#create-cross-compiler)
 
 <a name="introduction">Introduction</a>
 ---
@@ -61,3 +62,7 @@ tazpkg get-install binutils
 tazpkg get-install gcc
 exit
 ```
+
+<a name="create-cross-compiler">Creating a Cross Compiler</a>
+---
+[TODO]
