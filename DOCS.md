@@ -93,6 +93,8 @@ Configure binutils
 binutils-2.22/configure --prefix=/usr/local/cross --target=i586-elf --disable-nls
 ```
 
+`--diable-nls` tells to exclude native language support where creating binutils.
+
 Compiling binutils
 
 ```bash
