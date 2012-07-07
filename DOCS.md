@@ -63,7 +63,7 @@ su
 tazpkg get-install binutils
 tazpkg get-install gcc
 tazpkg get-install make
-tazpkg get-install sudo
+tazpkg get-install slitaz-toolchain
 exit
 ```
 ###<a name="create-cross-compiler">Creating a Cross Compiler</a>
