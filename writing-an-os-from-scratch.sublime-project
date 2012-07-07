@@ -1,2 +1,12 @@
 {
+	"folders": [ 
+		{
+			"path": "./",
+			"folder_exclude_patterns": [],
+			"file_exclude_patterns": ["*.sublime-*", ".*"]
+		}
+	],
+	"settings" : {
+		"tab_size": 4
+	}
 }
