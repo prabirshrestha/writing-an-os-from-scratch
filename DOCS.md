@@ -30,6 +30,17 @@ Remember to check the following when installing MinGW.
    * C Compiler
    * C++ Compiler
    * MSYS Base System
+   
+Now you are read to move on to the next step.
+
+Note: In this tutorial you will be required to download some files from the internet, rather then opening browser and downloading,
+you might want to install a command line tool called `wget` which will make downloading a lot easier from the shell. (Installing wget is optional.)
+
+Open MinGW Shell then type the following command in the shell.
+
+```bash
+mingw-get install msys-wget
+```
 
 ####<a name="install-gcc-mac">Install GCC in Mac</a>
 [TODO]
