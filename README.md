@@ -1,5 +1,4 @@
 # Writing an OS From Scratch
 
-# Tutorials
+Refer to DOCS.md for documentation.
 
-* [Creating a Cross Compiler](docs/1-creating-a-cross-compiler.md)
