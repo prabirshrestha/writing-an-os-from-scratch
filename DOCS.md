@@ -31,8 +31,8 @@ Remember to check the following when installing MinGW.
    * C++ Compiler
    * MSYS Base System
 
-####<a name="install-gcc-win">Install GCC in Mac</a>
+####<a name="install-gcc-mac">Install GCC in Mac</a>
 [TODO]
 
-####<a name="install-gcc-win">Install GCC in Linux</a>
+####<a name="install-gcc-linux">Install GCC in Linux</a>
 [TODO]
