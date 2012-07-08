@@ -70,6 +70,7 @@ enter your password.
 ```bash
 sudo apt-get install build-essential
 sudo apt-get install m4
+sudo apt-get install bison
 ```
 
 When asked to install type `Y` and press enter.
