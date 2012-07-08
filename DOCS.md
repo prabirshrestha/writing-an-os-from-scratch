@@ -162,25 +162,60 @@ cd build-mpfr
 wget http://ftp.gnu.org/gnu/mpfr/mpfr-3.1.1.tar.xz
 ```
 
-Extract gmp-5.0.5.tar.xz
+Extract mpfr-3.1.1.tar.xz
 
 ```bash
 tar Jxf mpfr-3.1.1.tar.xz
 ```
 
-Configure gmp
+Configure mpfr
 
 ```bash
 mpfr-3.1.1/configure
 ```
 
-Compiling gmp
+Compiling mpfr
 
 ```bash
 make all
 ```
 
-Installing gmp
+Installing mpfr
+
+```bash
+make install
+```
+
+####<a name="compile-mpc">Compiling mpc</a>
+Since gcc depends on mpc, we need to compile mpc first.
+Download the source code of `mpc` which can be found at http://www.multiprecision.org/mpc/download/mpc-0.8.2.tar.gz or
+use the following command.
+
+```bash
+mkdir build-mpc
+cd build-mpc
+wget http://www.multiprecision.org/mpc/download/mpc-0.8.2.tar.gz
+```
+
+Extract mpc-0.8.2.tar.gz
+
+```bash
+tar xzvf mpc-0.8.2.tar.gz
+```
+
+Configure mpc
+
+```bash
+mpc-0.8.2.tar.gz/configure
+```
+
+Compiling mpc
+
+```bash
+make all
+```
+
+Installing mpc
 
 ```bash
 make install
