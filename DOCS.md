@@ -13,6 +13,7 @@ This doc teaches you how to write an Operating System (OS) from scratch.
       * [Linux](#install-gcc-linux)
     * [Creating a Cross Compiler](#create-cross-compiler)
          * [binutils](#compile-binutils)
+         * [gmp](#compile-gmp)
          * [gcc](#compile-gcc)
       
 <a name="introduction">Introduction</a>
@@ -67,6 +68,7 @@ enter your password.
 
 ```bash
 sudo apt-get install build-essential
+sudo apt-get install m4
 ```
 
 When asked to install type `Y` and press enter.
@@ -113,10 +115,47 @@ Installing binutils to /usr/local/cross folder
 make install
 ```
 
-[TODO]
+####<a name="compile-gmp">Compiling gmp</a>
+Since gcc depends on gmp, we need to compile gmp first.
+Download the source code of `gmp` which can be found at http://ftp.gnu.org/gnu/gmp/gmp-5.0.5.tar.xz or
+use the following command.
+
+```bash
+mkdir build-gmp
+cd build-gmp
+wget http://ftp.gnu.org/gnu/gmp/gmp-5.0.5.tar.xz
+```
+
+Extract gmp-5.0.5.tar.xz
+
+```bash
+tar Jxf gmp-5.0.5.tar.xz
+```
+
+Configure gmp
+
+```bash
+gmp-5.0.5/configure
+```
+
+Compiling gmp
+
+```bash
+make all
+```
+
+Installing gmp
+
+```bash
+make install
+```
+
 
 ####<a name="compile-gcc">Compiling gcc</a>
-Download the source code of `gcc` which can be found at http://ftp.gnu.org/gnu/gcc/gcc-4.7.1/gcc-4.7.1.tar.gz or use the following command.
+Note: You need to have [compiled version of gmp](#compile-gmp) before compiling gcc.
+
+Download the source code of `gcc` which can be found at http://ftp.gnu.org/gnu/gcc/gcc-4.7.1/gcc-4.7.1.tar.gz or
+use the following command.
 
 ```bash
 mkdir build-gcc
