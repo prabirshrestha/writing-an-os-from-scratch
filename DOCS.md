@@ -71,6 +71,7 @@ enter your password.
 sudo apt-get install build-essential
 sudo apt-get install m4
 sudo apt-get install bison
+sudo apt-get install zlib1g-dev
 ```
 
 When asked to install type `Y` and press enter.
