@@ -58,20 +58,19 @@ sudo /Library/Developer/Shared/uninstall-devtools --mode=all
 ```
 
 ####<a name="install-gcc-linux">Installing GCC in Linux</a>
-For linux we will be using [Slitaz](http://www.slitaz.org/) so some commands like installing packages will be
-specific to Slitaz. *SliTaz is a linux based open source and free operating system providing a fully featured desktop 
-or server in less than 35 MB.*
+For linux we will be using [Ubuntu](http://www.ubuntu.com/) so some commands like installing packages will be
+specific to Ubuntu.
 
-Type the following commands in the terminal to install `binutils` and `gcc`. You might require root privilages to install
-or peformc certain task. In slitaz it can be performed by typing `su` in the terminal and pressing enter. They type your
-root passsword.
+Type the following command in the terminal to install `binutils` and `gcc`. You might require root privilages to install
+or perform certain tasks. In Ubuntu it can be performed by prepending `sudo` infront of the command. You might be asked to
+enter your password.
 
 ```bash
-tazpkg get-install binutils
-tazpkg get-install gcc
-tazpkg get-install make
-tazpkg get-install slitaz-toolchain
+sudo apt-get install build-essential
 ```
+
+When asked to install type `Y` and press enter.
+
 ###<a name="create-cross-compiler">Creating a Cross Compiler</a>
 
 Our OS will be using the elf binary format targeting x86 machines. We will thus need a compiler that can target elf and x86
