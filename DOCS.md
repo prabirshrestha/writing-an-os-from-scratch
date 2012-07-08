@@ -222,8 +222,8 @@ make install
 ```
 
 ####<a name="compile-gcc">Compiling gcc</a>
-Note: You need to have [compiled version of gmp](#compile-gmp) and [compiled version of mpfr](#compile-mpfr) before 
-compiling gcc.
+Note: You need to have [compiled version of gmp](#compile-gmp), [compiled version of mpfr](#compile-mpfr) and 
+[compiled version of mpc](#compile-mpc) before compiling gcc.
 
 Download the source code of `gcc` which can be found at http://ftp.gnu.org/gnu/gcc/gcc-4.7.1/gcc-4.7.1.tar.gz or
 use the following command.
