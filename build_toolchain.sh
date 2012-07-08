@@ -67,18 +67,11 @@ echo "===================================================================="
 echo "Fetching gcc $GCC_VER..."
 echo "===================================================================="
 
-if [ ! -f ${SOURCE_PREFIX}/gcc-core-${GCC_VER}.tar.bz2 ]; then
+if [ ! -f ${SOURCE_PREFIX}/gcc-${GCC_VER}.tar.bz2 ]; then
     echo "gcc-core"
-    curl http://ftp.gnu.org/gnu/gcc/gcc-${GCC_VER}/gcc-core-${GCC_VER}.tar.bz2 -o ${SOURCE_PREFIX}/gcc-core-${GCC_VER}.tar.bz2
+    curl http://ftp.gnu.org/gnu/gcc/gcc-${GCC_VER}/gcc-${GCC_VER}.tar.bz2 -o ${SOURCE_PREFIX}/gcc-${GCC_VER}.tar.bz2
 else
     echo "Not fetching gcc-core, file exists."
-fi
-
-if [ ! -f ${SOURCE_PREFIX}/gcc-g++-${GCC_VER}.tar.bz2 ]; then
-    echo "gcc-g++"
-    curl http://ftp.gnu.org/gnu/gcc/gcc-${GCC_VER}/gcc-g++-${GCC_VER}.tar.bz2 -o ${SOURCE_PREFIX}/gcc-g++-${GCC_VER}.tar.bz2
-else
-    echo "Not fetching gcc-g++, file exists."
 fi
 
 echo "===================================================================="
@@ -360,8 +353,7 @@ echo "Extracting gcc $GCC_VER..."
 echo "===================================================================="
 
 if [ ! -d sources/gcc-${GCC_VER} ]; then
-    tar xf ${SOURCE_PREFIX}/gcc-core-${GCC_VER}.tar.bz2 -C sources
-    tar xf ${SOURCE_PREFIX}/gcc-g++-${GCC_VER}.tar.bz2 -C sources
+    tar xf ${SOURCE_PREFIX}/gcc-${GCC_VER}.tar.bz2 -C sources
 fi
 
 echo "===================================================================="
@@ -420,7 +412,6 @@ echo "===================================================================="
 
 if [ ! -f libcxx/.build.succeeded ]; then
     cd libcxx/lib && \
-    export TRIPLE=-apple- && \
     ./buildit && \
     touch ../.build.succeeded && \
     cd ../.. || exit 1
