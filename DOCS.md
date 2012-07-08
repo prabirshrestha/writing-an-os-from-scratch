@@ -14,6 +14,7 @@ This doc teaches you how to write an Operating System (OS) from scratch.
     * [Creating a Cross Compiler](#create-cross-compiler)
          * [binutils](#compile-binutils)
          * [gmp](#compile-gmp)
+         * [mpfr](#compile-mpfr)
          * [gcc](#compile-gcc)
       
 <a name="introduction">Introduction</a>
@@ -150,9 +151,44 @@ Installing gmp
 make install
 ```
 
+####<a name="compile-mpfr">Compiling mpfr</a>
+Since gcc depends on mpfr, we need to compile mpfr first.
+Download the source code of `mpfr` which can be found at http://ftp.gnu.org/gnu/mpfr/mpfr-3.1.1.tar.xz or
+use the following command.
+
+```bash
+mkdir build-mpfr
+cd build-mpfr
+wget http://ftp.gnu.org/gnu/mpfr/mpfr-3.1.1.tar.xz
+```
+
+Extract gmp-5.0.5.tar.xz
+
+```bash
+tar Jxf mpfr-3.1.1.tar.xz
+```
+
+Configure gmp
+
+```bash
+mpfr-3.1.1/configure
+```
+
+Compiling gmp
+
+```bash
+make all
+```
+
+Installing gmp
+
+```bash
+make install
+```
 
 ####<a name="compile-gcc">Compiling gcc</a>
-Note: You need to have [compiled version of gmp](#compile-gmp) before compiling gcc.
+Note: You need to have [compiled version of gmp](#compile-gmp) and [compiled version of mpfr](#compile-mpfr) before 
+compiling gcc.
 
 Download the source code of `gcc` which can be found at http://ftp.gnu.org/gnu/gcc/gcc-4.7.1/gcc-4.7.1.tar.gz or
 use the following command.
