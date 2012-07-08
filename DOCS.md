@@ -51,6 +51,12 @@ called - `Command Line Tools for Xcode` from the Apple developers site. (You wil
 You can download it from http://developer.apple.com/downloads (Search for command to filter the results. For this tutorial
 we will be using `Command Line Tools for Xcode - June 2012` which is around 147mb compared to Xcode which is around 1.8gb+.)
 
+You can uninstall the command line tools in mac using the following command.
+
+```bash
+sudo /Library/Developer/Shared/uninstall-devtools --mode=all
+```
+
 ####<a name="install-gcc-linux">Installing GCC in Linux</a>
 For linux we will be using [Slitaz](http://www.slitaz.org/) so some commands like installing packages will be
 specific to Slitaz. *SliTaz is a linux based open source and free operating system providing a fully featured desktop 
