@@ -102,7 +102,7 @@ Configure binutils
 binutils-2.22/configure --prefix=/usr/local/cross --target=i586-elf --disable-nls
 ```
 
-`--diable-nls` tells to exclude native language support where creating binutils.
+`--diable-nls` tells to exclude native language support when creating binutils.
 
 Compiling binutils
 
@@ -211,6 +211,6 @@ Configure gcc
 gcc-4.7.1/configure --prefix=/usr/local/cross --target=i586-elf --disable-nls --enable-languages=c,c++ --without-header
 ```
 
-`--diable-nls` tells to exclude native language support where creating binutils.
+`--diable-nls` tells to exclude native language support when creating gcc.
 
 [TODO]
