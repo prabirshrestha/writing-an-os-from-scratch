@@ -117,4 +117,26 @@ make install
 [TODO]
 
 ####<a name="compile-gcc">Compiling gcc</a>
+Download the source code of `gcc` which can be found at http://ftp.gnu.org/gnu/gcc/gcc-4.7.1/gcc-4.7.1.tar.gz or use the following command.
+
+```bash
+mkdir build-gcc
+cd build-gcc
+wget http://ftp.gnu.org/gnu/gcc/gcc-4.7.1/gcc-4.7.1.tar.gz
+```
+
+Extract gcc-4.7.1.tar.gz
+
+```bash
+tar -vxzf gcc-4.7.1.tar.gz
+```
+
+Configure gcc
+
+```bash
+gcc-4.7.1/configure --prefix=/usr/local/cross --target=i586-elf --disable-nls --enable-languages=c,c++ --without-header
+```
+
+`--diable-nls` tells to exclude native language support where creating binutils.
+
 [TODO]
