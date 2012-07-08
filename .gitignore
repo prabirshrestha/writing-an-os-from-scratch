@@ -2,3 +2,5 @@
 *.swp
 *.sublime-workspace
 toolchain/
+
+*.o
