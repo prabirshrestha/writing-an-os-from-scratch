@@ -15,7 +15,15 @@ floppy.img: boot.bin
 	dd if=boot.bin of=floppy.img bs=512 count=2880
 
 qemu: floppy.img
-	$(QEMU) -hda floppy.img
+	$(QEMU) -m 256 -hda floppy.img
+
+qemu-gdb: floppy.img	# http://wiki.osdev.org/How_Do_I_Use_A_Debugger_With_My_OS
+	@echo "***"
+	@echo "*** Now run 'gdb'."
+	@echo "***    you can connect using the following command"
+	@echo "***    target remote localhost:1234"
+	@echo "***"
+	$(QEMU) -s -S -m 256 -hda floppy.img
 
 clean:
 	rm boot.o boot.bin boot.out floppy.img
