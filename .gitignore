@@ -6,3 +6,4 @@ toolchain/
 *.o
 *.out
 *.bin
+*.img

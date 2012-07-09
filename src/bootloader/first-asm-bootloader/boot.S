@@ -16,11 +16,7 @@
 .global main				# making entry point visible to the linker
 
 main:
-	jmp short start
-	nop
-
-start:
-	# rest of the code
+	jmp main				# infinite loop
 
 .fill (510-(.-main)), 1, 0  # Pad with nulls up to 510 bytes (exclude boot magic)
 BootMagic:  .int 0xAA55     # magic word for BIOS
