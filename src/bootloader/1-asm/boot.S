@@ -1,6 +1,5 @@
 # http://www.websofia.com/2011/10/writing-your-own-boot-loader-for-a-toy-operating-system-1/
 # http://www.websofia.com/2011/10/writing-your-own-bootloader-for-a-toy-operating-system-2/
-# http://www.websofia.com/2012/04/writing-your-own-bootloader-for-a-toy-operating-system-3/
 
 .code16						# 16 bit code generation
 							# Since all intel based start up with 16-bit instructions,
