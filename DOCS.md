@@ -69,6 +69,7 @@ enter your password.
 
 ```bash
 sudo apt-get install build-essential
+sudo apt-get install gdb
 sudo apt-get install m4
 sudo apt-get install bison
 sudo apt-get install qemu
