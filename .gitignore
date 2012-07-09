@@ -5,5 +5,6 @@ toolchain/
 
 *.o
 *.out
+*.asm
 *.bin
 *.img
