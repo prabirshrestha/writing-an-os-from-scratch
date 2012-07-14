@@ -69,6 +69,28 @@ bios_parameter_block:
     acVolumeLabel:  .ascii  "MYVOLUME   "   # volume label
     acFSType:       .ascii  "FAT16   "      # file system type
 
+# we’ll want to call the functions various times in the other boot code that we write. 
+# They are not part of the main body of code. That is why they are placed before the stage1_start label,
+# so that execution will jump over them.
+
+# Printing on screen
+# function that uses BIOS interrupt 0×10, sub-function 9 to print characters to the screen
+# The calling code must point DS:SI to the null-terminated string to be printed
+.func WriteString
+ WriteString:
+    lodsb                   # load byte at ds:si into al (advancing si)
+    or     al, al           # test if character is 0 (end)
+    jz     WriteString_done # jump to end if 0.
+    mov    ah, 0xe          # Subfunction 0xe of int 10h (video teletype output)
+    mov    bx, 9            # Set bh (page nr) to 0, and bl (attribute) to white (9)
+    int    0x10             # call BIOS interrupt
+    jmp    WriteString      # Repeat for next character
+
+ WriteString_done:
+    retw
+.endfunc
+
+# The main stage1 start
 stage1_start:
     cli                     # block all maskable interrupts (does not block NMI - non-maskable interrupts)
     mov  iBootDrive, dl     # save what drive we booted from (should be 0x0)
@@ -89,23 +111,6 @@ loop:
     cli                     # block all maskable interrupts (does not block NMI - non-maskable interrupts)
     hlt                     # halts until an interrup occurs
     jmp loop                # infinite loop
-
-# Printing on screen
-# function that uses BIOS interrupt 0×10, sub-function 9 to print characters to the screen
-# The calling code must point DS:SI to the null-terminated string to be printed
-.func WriteString
- WriteString:
-    lodsb                  # load byte at ds:si into al (advancing si)
-    or     al, al           # test if character is 0 (end)
-    jz     WriteString_done # jump to end if 0.
-    mov    ah, 0xe          # Subfunction 0xe of int 10h (video teletype output)
-    mov    bx, 9            # Set bh (page nr) to 0, and bl (attribute) to white (9)
-    int    0x10             # call BIOS interrupt
-    jmp    WriteString      # Repeat for next character
-
- WriteString_done:
-    retw
-.endfunc
 
 # PROGRAM DATA
 loadmsg:   .asciz "Loading Prabir's OS"
