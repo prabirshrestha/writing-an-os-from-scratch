@@ -220,6 +220,20 @@ stage1_start:
     mov     root_scts, cx
     # root_scts is now the number of sectors in the root directory.
 
+    # Calculate start sector root directory:
+    # root_strt = number of FAT tables * sectors per FAT
+    #           + number of hidden sectors
+    #           + number of reserved sectors
+    xor   ax, ax                      # find the root directory
+    mov   al, byte ptr iFatCnt        # ax = number of FAT tables
+    mov   bx, word ptr iFatSize       # bx = sectors per FAT
+    mul   bx                          # ax = #FATS * sectors per FAT
+    add   ax, word ptr iHiddenSect    # Add hidden sectors to ax
+    adc   ax, word ptr iHiddenSect+2
+    add   ax, word ptr iResSect       # Add reserved sectors to ax
+    mov   root_strt, ax
+    # root_strt is now the number of the first root sector
+
     # end of stage1, for now call reboot
     call Reboot
 
@@ -232,6 +246,7 @@ bootFailure:
 loadmsg:    .asciz "Loading Prabir's OS..."
 diskerror:  .asciz "Disk error"
 rebootmsg:  .asciz "Press any key to reboot"
+root_strt:   .byte 0,0      # hold offset of root directory on disk
 root_scts:   .byte 0,0      # holds # sectors in root directory
 
 .fill (510-(.-main)), 1, 0  # Pad with nulls up to 510 bytes (exclude boot magic)
