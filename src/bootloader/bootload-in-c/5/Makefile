@@ -7,16 +7,7 @@ all: floppy.img
 boot.o: boot.c
 	$(CC) $(CLFAGS) -nostdinc -fno-builtin -I./include -c -o $@ $^
 
-string.o: string.c
-	$(CC) $(CLFAGS) -nostdinc -fno-builtin -I./include -c -o $@ $^
-
-port.o: port.c
-	$(CC) $(CLFAGS) -nostdinc -fno-builtin -I./include -c -o $@ $^
-
-vga.o: vga.c
-	$(CC) $(CLFAGS) -nostdinc -fno-builtin -I./include -c -o $@ $^
-
-boot.bin: boot.o $(libcobjects) 
+boot.bin: boot.o
 	$(LD) $(LDFLAGS) -T boot.ld -o $@.out $^
 	objcopy -O binary $@.out $@
 
