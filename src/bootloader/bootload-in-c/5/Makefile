@@ -1,24 +1,28 @@
 -include ../../../../Makefile.config
 
-LibCObjects = string.o
+libcobjects = string.o port.o vga.o
 
 all: floppy.img
-
-libcstd.a: $(LibCObjects)
-	$(AR) rcs $@ $^
-
-string.o: string.c
-	$(CC) $(CLFAGS) -nostdinc -fno-builtin -I./include -c -o $@ $^
 
 boot.o: boot.c
 	$(CC) $(CLFAGS) -nostdinc -fno-builtin -I./include -c -o $@ $^
 
-boot.bin: boot.o libcstd.a
-	$(LD) $(LDFLAGS) -T boot.ld -o $@.out  $^
+string.o: string.c
+	$(CC) $(CLFAGS) -nostdinc -fno-builtin -I./include -c -o $@ $^
+
+port.o: port.c
+	$(CC) $(CLFAGS) -nostdinc -fno-builtin -I./include -c -o $@ $^
+
+vga.o: vga.c
+	$(CC) $(CLFAGS) -nostdinc -fno-builtin -I./include -c -o $@ $^
+
+boot.bin: boot.o $(libcobjects) 
+	$(LD) $(LDFLAGS) -T boot.ld -o $@.out $^
 	objcopy -O binary $@.out $@
 
 floppy.img: boot.bin
-	dd if=boot.bin of=floppy.img bs=512 count=2880
+	dd if=/dev/zero of=floppy.img bs=512 count=1440
+	dd if=boot.bin of=floppy.img bs=1 count=512 conv=notrunc
 
 qemu: floppy.img
 	$(QEMU) -m 256 -hda floppy.img
