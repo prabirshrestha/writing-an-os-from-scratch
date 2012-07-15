@@ -50,15 +50,15 @@ main:
 # OEM Parameter Block / BIOS Parameter Block
 bios_parameter_block:
     iOEM:           .ascii  "PrabirOS"      # OEM String
-    iSectSize:      .word   0x200           # bytes per sector
-    iClustSize:     .byte   1               # sectors per cluster
+    iSectSize:      .word   0x200           # bytes per sector (512 in decimal)
+    iClustSize:     .byte   1               # sectors per FAT cluster
     iResSect:       .word   1               # number of reserved sectors
     iFatCnt:        .byte   2               # number of FAT copies
     iRootSize:      .word   224             # size of root directory
     iTotalSect:     .word   2880            # total number of sectors if over 32 MB
-    iMedia:         .byte   0xF0            # media Descriptor
-    iFatSize:       .word   9               # size of each FAT
-    iTrackSect:     .word   9               # sectors per track
+    iMedia:         .byte   0xF0            # Double sided, 18 sectors per track (240 in decimal)
+    iFatSize:       .word   9               # sectors per FAT
+    iTrackSect:     .word   18              # sectors per track
     iHeadCnt:       .word   2               # number of read-write heads
     iHiddenSect:    .int    0               # number of hidden sectors
     iSect32:        .int    0               # number of sectors for over 32 MB
@@ -67,11 +67,29 @@ bios_parameter_block:
     iBootSign:      .byte   0x29            # extended boot sector signature
     iVolID:         .ascii  "seri"          # disk serial
     acVolumeLabel:  .ascii  "MYVOLUME   "   # volume label
-    acFSType:       .ascii  "FAT16   "      # file system type
+    acFSType:       .ascii  "FAT12   "      # file system type
 
 # we’ll want to call the functions various times in the other boot code that we write. 
 # They are not part of the main body of code. That is why they are placed before the stage1_start label,
 # so that execution will jump over them.
+
+# Initialize various segments:
+# - The boot sector is loaded by BIOS at 0:7C00 (CS = 0)
+# - CS, DS and ES are set to zero.
+# - Stack point is set to 0x7C00 and will grow down from there.
+# - Interrupts may not act now, so they are disabled.
+.macro mInitSegments
+    cli                     # block all maskable interrupts (does not block NMI - non-maskable interrupts)
+    mov  iBootDrive, dl     # save what drive we booted from (should be 0x0)
+                            # BIOS places the number of the boot drive in the DL register. We store it in our BPB for later use.
+    # We set ES = DS = SS = CS = 0×0, and make the stack grow down from 0x7C00 (our boot loader was loaded at 0x7C00)
+    mov  ax, cs             # CS = 0x0, since that's where boot sector is (0x07c00)
+    mov  ds, ax             # DS = CS = 0x0
+    mov  es, ax             # ES = CS = 0x0
+    mov  ss, ax             # SS = CS = 0x0
+    mov  sp, 0x7C00         # Stack grows down from offset 0x7C00 toward 0x0000.
+    sti                     # enable interrupt
+.endm
 
 # Printing on screen
 # function that uses BIOS interrupt 0×10, sub-function 9 to print characters to the screen
@@ -104,16 +122,7 @@ bios_parameter_block:
 
 # The main stage1 start
 stage1_start:
-    cli                     # block all maskable interrupts (does not block NMI - non-maskable interrupts)
-    mov  iBootDrive, dl     # save what drive we booted from (should be 0x0)
-                            # BIOS places the number of the boot drive in the DL register. We store it in our BPB for later use.
-    # We set ES = DS = SS = CS = 0×0, and make the stack grow down from 0x7C00 (our boot loader was loaded at 0x7C00)
-    mov  ax, cs             # CS = 0x0, since that's where boot sector is (0x07c00)
-    mov  ds, ax             # DS = CS = 0x0
-    mov  es, ax             # ES = CS = 0x0
-    mov  ss, ax             # SS = CS = 0x0
-    mov  sp, 0x7C00         # Stack grows down from offset 0x7C00 toward 0x0000.
-    sti                     # enable interrupt
+    mInitSegments
 
     # Display the loading message
     lea  si, loadmsg

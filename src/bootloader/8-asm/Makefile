@@ -26,7 +26,7 @@ floppy.img: boot.bin
 	sudo umount /media/floppy/	
 
 qemu: floppy.img
-	$(QEMU) -m 256 -hda floppy.img
+	$(QEMU) -m 256 -fda floppy.img
 
 qemu-gdb: floppy.img	# http://wiki.osdev.org/How_Do_I_Use_A_Debugger_With_My_OS
 	@echo "***"
@@ -41,7 +41,7 @@ qemu-gdb: floppy.img	# http://wiki.osdev.org/How_Do_I_Use_A_Debugger_With_My_OS
 	@echo "***    to continue until next breakpoint"
 	@echo "***         continue"
 	@echo "***"
-	$(QEMU) -s -S -m 256 -hda floppy.img
+	$(QEMU) -s -S -m 256 -fda floppy.img
 
 clean:
 	rm boot.o boot.bin boot.out boot.asm floppy.img
