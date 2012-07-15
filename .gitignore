@@ -3,6 +3,7 @@
 *.sublime-workspace
 toolchain/
 
+*.a
 *.o
 *.out
 *.asm

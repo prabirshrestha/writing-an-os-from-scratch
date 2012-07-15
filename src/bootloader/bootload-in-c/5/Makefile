@@ -1,12 +1,20 @@
 -include ../../../../Makefile.config
 
+LibCObjects = string.o
+
 all: floppy.img
 
-boot.o: boot.c
-	$(CC) $(CLFAGS) -nostdinc -fno-builtin -I./include  -c -o $@ $^
+libcstd.a: $(LibCObjects)
+	$(AR) rcs $@ $^
 
-boot.bin: boot.o
-	$(LD) $(LDFLAGS) -T boot.ld -o $@.out $^
+string.o: string.c
+	$(CC) $(CLFAGS) -nostdinc -fno-builtin -I./include -c -o $@ $^
+
+boot.o: boot.c
+	$(CC) $(CLFAGS) -nostdinc -fno-builtin -I./include -c -o $@ $^
+
+boot.bin: boot.o libcstd.a
+	$(LD) $(LDFLAGS) -T boot.ld -o $@.out  $^
 	objcopy -O binary $@.out $@
 
 floppy.img: boot.bin

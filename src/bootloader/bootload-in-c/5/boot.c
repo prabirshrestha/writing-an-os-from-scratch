@@ -15,8 +15,13 @@ void clear_screen();        // clear screen
 
 void hang();
 
+#include <string.h>
+
 void main()
 {
+    size_t x;
+    char *hello = "hello world";
+    x = strlen(hello);
 	clear_screen();
 	hang();
 }
