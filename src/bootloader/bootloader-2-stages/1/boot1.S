@@ -37,6 +37,7 @@
 .intel_syntax noprefix      # instruct GNU assembler that we’ll be using Intel syntax
                             # (e.g. mov ax, 1 instead of movw $1, %ax – some prefer the latter
 
+
 .text                       # code segment
 .org 0x0                    # the origin of our code will be 0×0,
                             # i.e. all absolute addresses start at 0×0, which will be convenient.
@@ -50,15 +51,15 @@ main:
 # OEM Parameter Block / BIOS Parameter Block
 bios_parameter_block:
     iOEM:           .ascii  "PrabirOS"      # OEM String
-    iSectSize:      .word   0x200           # bytes per sector (512 in decimal)
-    iClustSize:     .byte   1               # sectors per FAT cluster
+    iSectSize:      .word   0x200           # bytes per sector
+    iClustSize:     .byte   1               # sectors per cluster
     iResSect:       .word   1               # number of reserved sectors
     iFatCnt:        .byte   2               # number of FAT copies
     iRootSize:      .word   224             # size of root directory
     iTotalSect:     .word   2880            # total number of sectors if over 32 MB
-    iMedia:         .byte   0xF0            # Double sided, 18 sectors per track (240 in decimal)
-    iFatSize:       .word   9               # sectors per FAT
-    iTrackSect:     .word   18              # sectors per track
+    iMedia:         .byte   0xF0            # media Descriptor
+    iFatSize:       .word   9               # size of each FAT
+    iTrackSect:     .word   9               # sectors per track
     iHeadCnt:       .word   2               # number of read-write heads
     iHiddenSect:    .int    0               # number of hidden sectors
     iSect32:        .int    0               # number of sectors for over 32 MB
@@ -67,29 +68,11 @@ bios_parameter_block:
     iBootSign:      .byte   0x29            # extended boot sector signature
     iVolID:         .ascii  "seri"          # disk serial
     acVolumeLabel:  .ascii  "MYVOLUME   "   # volume label
-    acFSType:       .ascii  "FAT12   "      # file system type
+    acFSType:       .ascii  "FAT16   "      # file system type
 
 # we’ll want to call the functions various times in the other boot code that we write. 
 # They are not part of the main body of code. That is why they are placed before the stage1_start label,
 # so that execution will jump over them.
-
-# Initialize various segments:
-# - The boot sector is loaded by BIOS at 0:7C00 (CS = 0)
-# - CS, DS and ES are set to zero.
-# - Stack point is set to 0x7C00 and will grow down from there.
-# - Interrupts may not act now, so they are disabled.
-.macro mInitSegments
-    cli                     # block all maskable interrupts (does not block NMI - non-maskable interrupts)
-    mov  iBootDrive, dl     # save what drive we booted from (should be 0x0)
-                            # BIOS places the number of the boot drive in the DL register. We store it in our BPB for later use.
-    # We set ES = DS = SS = CS = 0×0, and make the stack grow down from 0x7C00 (our boot loader was loaded at 0x7C00)
-    mov  ax, cs             # CS = 0x0, since that's where boot sector is (0x07c00)
-    mov  ds, ax             # DS = CS = 0x0
-    mov  es, ax             # ES = CS = 0x0
-    mov  ss, ax             # SS = CS = 0x0
-    mov  sp, 0x7C00         # Stack grows down from offset 0x7C00 toward 0x0000.
-    sti                     # enable interrupt
-.endm
 
 # Printing on screen
 # function that uses BIOS interrupt 0×10, sub-function 9 to print characters to the screen
@@ -120,23 +103,44 @@ bios_parameter_block:
     .word  0xFFFF
 .endfunc
 
-# The main stage1 start
 stage1_start:
-    mInitSegments
+  cli                     # block all maskable interrupts (does not block NMI - non-maskable interrupts)
+  mov  iBootDrive, dl     # save what drive we booted from (should be 0x0)
+                          # BIOS places the number of the boot drive in the DL register. We store it in our BPB for later use.
+  # We set ES = DS = SS = CS = 0×0, and make the stack grow down from 0x7C00 (our boot loader was loaded at 0x7C00)
+  mov  ax, cs             # CS = 0x0, since that's where boot sector is (0x07c00)
+  mov  ds, ax             # DS = CS = 0x0
+  mov  es, ax             # ES = CS = 0x0
+  mov  ss, ax             # SS = CS = 0x0
+  mov  sp, 0x7C00         # Stack grows down from offset 0x7C00 toward 0x0000.
+  sti         
 
-    # Display the loading message
-    lea  si, loadmsg
-    call WriteString
+  # display A
+  mov ah,0x0E 
+  mov bh,0x00 
+  mov al,65
+  int 0x10
 
-    # Reset disk system.
-    # Jump to bootFailure on error.
-    mov  dl, iBootDrive  # drive to reset
-    xor  ax, ax          # subfunction 0
-    int  0x13            # call interrupt 13h
-    jc   bootFailure     # display error message if carry set (error)  
+  # Reset disk system.
+  # Jump to bootFailure on error.
+  mov  dl, iBootDrive  # drive to reset
+  xor  ax, ax          # subfunction 0
+  int  0x13            # call interrupt 13h
+  jc   bootFailure     # display error message if carry set (error)  
+  
+  mov ax,0x1000 # When we read the sector, we are going to read address 0x1000
+  mov es,ax   #Set ES with 0x1000
 
-    # end of stage1, for now call reboot
-    call Reboot
+floppy:
+  mov ah,0x2  #2 = Read floppy
+  mov al,0x1  #Reading one sector
+  mov ch,0x0  #Track 1 *0 = 1*
+  mov cl,0x2  #Sector 2, track 1
+  mov dh,0x0  #Head 1
+  mov dl,0x0  #Drive = 0 (Floppy)
+  int 0x13
+  jc floppy #If carry flag was set, try again
+jmp 0x1000:0000 #Jump to 0x1000, start of second program
 
 bootFailure:
   lea  si, diskerror
@@ -144,7 +148,6 @@ bootFailure:
   call Reboot
 
 # PROGRAM DATA
-loadmsg:    .asciz "Loading Prabir's OS..."
 diskerror:  .asciz "Disk error"
 rebootmsg:  .asciz "Press any key to reboot"
 
